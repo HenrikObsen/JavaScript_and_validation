@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@section head
+{
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function Kunde(name, adress, zipcode, phone, email) {
+
+            this.Name = name;
+            this.Adress = adress;
+            this.ZipCode = zipcode;
+            this.Phone = phone;
+            this.Email = email;
+         }
+
+        function AddKunde(name, adress, zipcode, phone, email) {
+            
+           // if (name && adress && zipcode && phone && email) {
+            var newKunde = new Kunde(name, adress, zipcode, phone, email);
+            
+                $.ajax({
+                    type: 'POST',
+                    url: '/Service/AddKunde/',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({kundeData: newKunde}),
+                    success: function (res) {
+                        $("#divResult").html(res);
+                   },
+                    error: function (error) {
+                        $("#divResult").html(error);
+                    }
+                });
+           // }
+
+        }
+
+        function GetDate() {
+            $.ajax({
+                type: 'POST',
+                url: '/Service/GetData/',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({}),
+                success: function (msg) {
+                    $("#divResult").html(msg);
+                },
+                error: function (e) {
+                    $("#divResult").html("Something Wrong.");
+                }
+            });
+        }
+    </script>
+}
+
+
+
+<a onclick="GetDate()">Hent dato</a>
+<br />
+<a onclick="AddKunde('Henrik Obsen','Svinget 2',8570,70121416,'hto@djes.dk');">Add Henrik</a>
+
+<div id="divResult"></div>
+
+

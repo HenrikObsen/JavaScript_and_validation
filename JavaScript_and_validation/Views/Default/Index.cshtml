@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+    var valiList = [
+        { name: 'navn', type: 'text', message: 'Indtast en tekst' },
+        { name: 'sortering', type: 'email', message: 'Indtast en email' }
+    ];
+</script>
+<script src="~/Content/js/Validator.js"></script>
+
+<h2>Opret kategori</h2>
+
+
+<form name="myForm" action="/Home/AddKat/" enctype="multipart/form-data" method="post" onsubmit="return validateForm(this)">
+    Navn:  <input type="text" id="navn" name="navn" rel="tekst" />
+    <br />
+    Sortering:  <input type="text" id="sortering" name="sortering" />
+    <br />
+    <input type="submit" value="Gem" />
+</form>
