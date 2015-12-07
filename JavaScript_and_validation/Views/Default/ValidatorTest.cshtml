@@ -8,6 +8,14 @@
 
 
         var validationList = [
+             {
+                 isRequired: false,
+                 type: "compare",
+                 compareName1: "Name",
+                 compareName2: "Adress",
+                 errorMessage: "The values are not equal!.",
+                 errorElementID: "validation-for-comp"
+             },
             {
                 name: "Name",
                 isRequired: true,
@@ -22,6 +30,7 @@
                 errorMessage: "The string must only accepts A-z and no longer than 150 characters.",
                 errorElementID: "validation-for-adress"
             },
+            
             {
                 name: "ZipCode",
                 isRequired: true,
@@ -51,24 +60,25 @@
             }
         ];
     </script>
-<script src="~/Content/js/Validator.js"></script>
+    <script src="~/Content/js/Validator.js"></script>
 }
 
 <h2>ValidatorTest</h2>
 
 <form name="MyForm" action="/Default/ValidatorTest/" method="post" onsubmit="return validate(this);" novalidate>
-    
+
     <label for="Name">Navn</label>
     <input id="Name" name="Name" type="text">
-    <span id="validation-for-name"></span><br/>
+    <span id="validation-for-name"></span><br />
 
     <label for="Adress">Adress</label>
     <input id="Adress" name="Adress" type="text">
-    <span id="validation-for-adress"></span><br/>
+    <span id="validation-for-adress"></span><span id="validation-for-comp"></span><br />
+    
 
     <label for="ZipCode">ZipCode</label>
     <input id="ZipCode" name="ZipCode" type="text">
-    <span id="validation-for-zipcode"></span><br/>
+    <span id="validation-for-zipcode"></span><br />
 
     <label for="City">City</label>
     <input id="City" name="City" type="text">
@@ -76,14 +86,14 @@
 
     <label for="Phone">Phone</label>
     <input id="Phone" name="Phone" type="text">
-    <span id="validation-for-phone"></span><br/>
+    <span id="validation-for-phone"></span><br />
 
     <label for="Name">Email</label>
     <input id="Email" name="Email" type="text">
     <span id="validation-for-email"></span><br />
 
-    <input type="submit" value="Valider"/>
+    <input type="submit" value="Valider" />
     @ViewBag.MSG
 </form>
 
-   
+

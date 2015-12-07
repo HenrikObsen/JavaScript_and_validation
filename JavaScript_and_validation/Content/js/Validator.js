@@ -3,6 +3,7 @@ imported.src = '../Content/js/ValidatorTypes.js';
 document.head.appendChild(imported);
 
 
+
 var validate = function (form) {
 
     var validated = true;
@@ -10,7 +11,10 @@ var validate = function (form) {
     // Validate inputs in form.
     for (var i = 0; i < validationList.length; i++) {
         var input = validationList[i];
-        var value = document.forms[form.name][input.name].value;
+        if (input.name != null) {
+           var value = document.forms[form.name][input.name].value; 
+        }
+        
         var error = document.getElementById(input.errorElementID);
 
         var thisValidation = true;
@@ -22,9 +26,9 @@ var validate = function (form) {
         }
 
         // Check if the field is isRequired.
-        if (input.isRequired) {
+        if (input.isRequired || input.type == "compare") {
             // Check if there is a value in the input.
-            if (value == null || value === "") {
+            if ((value == null || value === "") && input.type != "compare") {
                 error.innerText = "This field is required.";
                 requiredFailed = true;
                 validated = false;
@@ -32,6 +36,17 @@ var validate = function (form) {
 
             if (!requiredFailed) {
                 // Check for emails.
+                //var list = [{ key: "email", method: "validateEmail" }, { key: "url", method: "validateUrl" }, { key: "number", method: "validateNumbers" }];
+
+                //for (var j = 0; j < list.length; j++) {
+                //    if (input.type === list[j].key) {
+                //        if (!list[j].method(value)) {
+                //            thisValidation = false;
+                //        }
+                //    }
+                //}
+
+
                 if (input.type === "email") {
                     if (!validateEmail(value)) {
                         thisValidation = false;
@@ -51,6 +66,16 @@ var validate = function (form) {
                         thisValidation = false;
                     }
                 }
+                // Compare values.
+                if (input.type === "compare") {
+                    var compValue1 = document.forms[form.name][input.compareName1].value;
+                    var compValue2 = document.forms[form.name][input.compareName2].value;
+                    if (!compareValues(compValue1, compValue2)) {
+                        thisValidation = false;
+                    }
+                }
+
+            
 
                 // Check for custom regex.
                 if (input.regex) {
