@@ -1,62 +1,73 @@
-﻿function validateNumbers(n) {
-
-    return !isNaN(parseFloat(n)) && isFinite(n);
-
-}
-
-function validateEmail(e) {
-    //str.indexOf('@@');
-    var re = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)/;
-    return re.test(e);
-}
-
-function validateForm(form) {
-    var sum = true;
-
-    for (I = 0; I < valiList.length; I++) {
-        var x = document.forms[form.name][valiList[I].name];
-
-        if (x.value == null || x.value == "") {
-            alert(valiList[I].message);
-            sum = false;
-        } else {
+﻿var imported = document.createElement('script');
+imported.src = '../Content/js/ValidatorTypes.js';
+document.head.appendChild(imported);
 
 
-            if (valiList[I].type == 'int') {
+var validate = function (form) {
 
-                if (!validateNumbers(x.value)) {
-                    alert(valiList[I].message);
-                    sum = false;
+    var validated = true;
+
+    // Validate inputs in form.
+    for (var i = 0; i < validationList.length; i++) {
+        var input = validationList[i];
+        var value = document.forms[form.name][input.name].value;
+        var error = document.getElementById(input.errorElementID);
+
+        var thisValidation = true;
+        var requiredFailed = false;
+
+        // Check if there is an errorMessage from previous post attempt. If there is, remove it.
+        if (error.innerText != null) {
+            error.innerText = "";
+        }
+
+        // Check if the field is isRequired.
+        if (input.isRequired) {
+            // Check if there is a value in the input.
+            if (value == null || value === "") {
+                error.innerText = "This field is required.";
+                requiredFailed = true;
+                validated = false;
+            }
+
+            if (!requiredFailed) {
+                // Check for emails.
+                if (input.type === "email") {
+                    if (!validateEmail(value)) {
+                        thisValidation = false;
+                    }
+                }
+
+                // Check for URLs.
+                if (input.type === "url") {
+                    if (!validateUrl(value)) {
+                        thisValidation = false;
+                    }
+                }
+
+                // Check for numbers.
+                if (input.type === "number") {
+                    if (!validateNumbers(value)) {
+                        thisValidation = false;
+                    }
+                }
+
+                // Check for custom regex.
+                if (input.regex) {
+                    if (!input.regex.test(value)) {
+                        thisValidation = false;
+                    }
                 }
             }
 
-            if (valiList[I].type == 'email') {
-
-                if (!validateEmail(x.value)) {
-                    alert(valiList[I].message);
-                    sum = false;
-                }
+            // If this validation failed, set the text on the failed element and set validation to false.
+            if (!thisValidation) {
+                error.innerText = input.errorMessage;
+                validated = false;
             }
         }
-
-        if (sum == false) {
-            return false;
-        }
-
-
     }
-    return sum;
-}
 
+    return validated;
+};
 
-
-//var x = document.forms["myForm"]["navn"].value;
-
-//for (I = 0; I < form.length; I++) {
-//   // alert(form[I].rel);
-//    var x = form[I].value;;
-//    if (x == null || x == "") {
-//        alert("Name must be filled out");
-//        return false;
-//    }
-//}

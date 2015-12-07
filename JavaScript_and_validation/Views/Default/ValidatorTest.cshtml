@@ -1,0 +1,89 @@
+﻿@model JavaScript_and_validation.Models.Kunde
+@{
+    ViewBag.Title = "ValidatorTest";
+}
+@section head
+{
+    <script language="javascript">
+
+
+        var validationList = [
+            {
+                name: "Name",
+                isRequired: true,
+                regex: /[A-Za-z]{1,150}/,
+                errorMessage: "The string must only accepts A-z and no longer than 150 characters.",
+                errorElementID: "validation-for-name"
+            },
+            {
+                name: "Adress",
+                isRequired: true,
+                regex: /[A-Za-z]{1,150}/,
+                errorMessage: "The string must only accepts A-z and no longer than 150 characters.",
+                errorElementID: "validation-for-adress"
+            },
+            {
+                name: "ZipCode",
+                isRequired: true,
+                type: "number",
+                errorMessage: "The zip must be a number!",
+                errorElementID: "validation-for-zipcode"
+            },
+            {
+                name: "City",
+                isRequired: true,
+                errorMessage: "Enter a City.",
+                errorElementID: "validation-for-city"
+            },
+             {
+                 name: "Phone",
+                 isRequired: true,
+                 type: "number",
+                 errorMessage: "The phon must be a number!",
+                 errorElementID: "validation-for-phone"
+             },
+            {
+                name: "Email",
+                type: "email",
+                isRequired: true,
+                errorMessage: "Enter a valid email.",
+                errorElementID: "validation-for-email"
+            }
+        ];
+    </script>
+<script src="~/Content/js/Validator.js"></script>
+}
+
+<h2>ValidatorTest</h2>
+
+<form name="MyForm" action="/Default/ValidatorTest/" method="post" onsubmit="return validate(this);" novalidate>
+    
+    <label for="Name">Navn</label>
+    <input id="Name" name="Name" type="text">
+    <span id="validation-for-name"></span><br/>
+
+    <label for="Adress">Adress</label>
+    <input id="Adress" name="Adress" type="text">
+    <span id="validation-for-adress"></span><br/>
+
+    <label for="ZipCode">ZipCode</label>
+    <input id="ZipCode" name="ZipCode" type="text">
+    <span id="validation-for-zipcode"></span><br/>
+
+    <label for="City">City</label>
+    <input id="City" name="City" type="text">
+    <span id="validation-for-city"></span><br />
+
+    <label for="Phone">Phone</label>
+    <input id="Phone" name="Phone" type="text">
+    <span id="validation-for-phone"></span><br/>
+
+    <label for="Name">Email</label>
+    <input id="Email" name="Email" type="text">
+    <span id="validation-for-email"></span><br />
+
+    <input type="submit" value="Valider"/>
+    @ViewBag.MSG
+</form>
+
+   

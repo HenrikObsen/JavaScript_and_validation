@@ -19,9 +19,15 @@ namespace JavaScript_and_validation.Models
         public string Adress { get; set; }
 
         [Required]
-        [RegularExpression("([0-9]{4}) ([A-z]{1,})", ErrorMessage = "Please enter a valid email")]
+        [StringLength(150)]
+        public string City { get; set; }
+
+        [Required]
+        [Range(0, 9999)]
         public int ZipCode { get; set; }
 
+        [Required]
+        [RegularExpression(@"[0-9]*\.?[0-9]+")]
         public string Phone { get; set; }
 
         [Required]
